@@ -87,4 +87,4 @@ class MessageAPI:
 api.add_resource(MessageAPI._CRUD, '/')
 api.add_resource(MessageAPI._Send, '/send')
 api.add_resource(MessageAPI._Delete, '/delete')
-api.add_resource(MessageAPI._Likes, '/like') 
+api.add_resource(MessageAPI._Likes, '/like')
