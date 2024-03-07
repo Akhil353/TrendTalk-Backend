@@ -15,15 +15,15 @@ class MessageAPI:
         @token_required
         def post(self, current_user, Message): # Create Method
             body = request.get_json()
-            
+
             # Validate message content
             message_content = body.get('message')
             if not message_content:
                 return {'message': 'Message content is missing'}, 400
-            
+
             # Create Message object
             message = Message(uid=current_user.uid, message=message_content)
-            
+
             # Add message to database
             try:
                 created_message = message.create()
@@ -36,7 +36,7 @@ class MessageAPI:
             messages = Message.query.all()
             json_ready = [message.read() for message in messages]
             return jsonify(json_ready)
-        
+
         def put(self, old_message, new_message, likes):
             Message.update(old_message, new_message, likes)
     class _Send(Resource):
@@ -53,13 +53,6 @@ class MessageAPI:
             if message:
                 return message.read()
             return {'message': f'Processed {uid}, either a format error or User ID {uid} is duplicate'}, 400
-    
-    class _Likes(Resource):
-        def put(self):
-            body = request.get_json()
-            message = body.get('message')
-            message = Message.query.filter_by(_message=message).first()
-            message.likes += 1
 
     class _Delete(Resource):
         @token_required()
@@ -83,6 +76,13 @@ class MessageAPI:
                 return {'message': 'Message deleted successfully'}, 200
             except Exception as e:
                 return {'message': f'Failed to delete message: {str(e)}'}, 500
+        
+    class _Likes(Resource):
+        def put(self):
+            body = request.get_json()
+            message = body.get('message')
+            message = Message.query.filter_by(_message=message).first()
+            message.likes += 1
 
 api.add_resource(MessageAPI._CRUD, '/')
 api.add_resource(MessageAPI._Send, '/send')

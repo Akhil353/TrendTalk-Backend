@@ -58,10 +58,6 @@ class Message(db.Model):
         self._likes = likes
         db.session.commit()
     
-    # date should have a setter method as well if needed for updates
-    
-    # CRUD create/add a new record to the table
-    # returns self or None on error
     def create(self):
         try:
             # creates a person object from User(db.Model) class, passes initializers
@@ -97,12 +93,12 @@ class Message(db.Model):
         db.session.delete(self)
         db.session.commit()
         return None
-    
+
 def initMessages():
     with app.app_context():
         """Create database and tables"""
         db.create_all()
-        
+
         """Tester data for table"""
         m1 = Message(uid='toby', message='Hello from Thomas Edison', likes=3)
         m2 = Message(uid='niko', message='Greetings from Nicholas Tesla', likes=0)
