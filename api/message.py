@@ -5,6 +5,7 @@ import jwt
 import json
 from auth_middleware import token_required
 from model.messages import Message 
+from model.users import User
 from __init__ import app, db
 
 message_api = Blueprint('message_api', __name__, url_prefix='/api/messages')
@@ -44,11 +45,12 @@ class MessageAPI:
             token = request.cookies.get("jwt")
             uid = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])['_uid'] # current user
             body = request.get_json()
-
+            user = User.query.filter_by(uid=uid).first()
+            name = user._name
             message = body.get('message')
             likes = body.get('likes')
             if uid is not None:
-                new_message = Message(uid=uid, message=message, likes=likes)
+                new_message = Message(uid=name, message=message, likes=likes)
             message = new_message.create()
             if message:
                 return message.read()
