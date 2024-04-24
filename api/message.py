@@ -85,6 +85,7 @@ class MessageAPI:
             message = body.get('message')
             message = Message.query.filter_by(_message=message).first()
             message.likes += 1
+            return message.likes
 
 api.add_resource(MessageAPI._CRUD, '/')
 api.add_resource(MessageAPI._Send, '/send')
