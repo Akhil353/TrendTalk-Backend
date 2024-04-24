@@ -1,3 +1,4 @@
+# BOILERPLATE CODE PROVIDED BY AP CSP TEACHER then modified to fit CPT project needs
 from functools import wraps
 import jwt
 from flask import request, abort, current_app

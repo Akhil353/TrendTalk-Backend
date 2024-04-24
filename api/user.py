@@ -1,3 +1,5 @@
+# CODE PROVIDED AS TEMPLATE BY TEACHER, then modified to fit my project
+# CHATGPT used to debug this code
 import json, jwt
 from flask import Blueprint, request, jsonify, current_app, Response
 from flask_restful import Api, Resource # used for REST API building

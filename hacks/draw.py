@@ -1,5 +1,4 @@
-# Python program to user input pattern
-# using Turtle Programming
+# CODE PROVIDED AS TEMPLATE BY TEACHER
 import turtle   #Outside_In
 import turtle
 import time

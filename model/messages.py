@@ -1,3 +1,5 @@
+# boilerplate code provided by teacher, then modified for this project
+# CHATGPT used to debug this code
 from random import randrange
 from datetime import date
 import os, base64

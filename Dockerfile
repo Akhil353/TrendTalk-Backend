@@ -15,3 +15,4 @@ ENV GUNICORN_CMD_ARGS="--workers=1 --bind=0.0.0.0:8080"
 EXPOSE 8080
 
 CMD [ "gunicorn", "main:app" ]
+# BOILERPLATE CODE PROVIDED BY AP CSP TEACHER then modified to fit CPT project needs

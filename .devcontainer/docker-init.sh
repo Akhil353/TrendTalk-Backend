@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# CODE PROVIDED AS TEMPLATE BY TEACHER
 if docker volume create --name my-app &> /dev/null; then
   echo "Created volume my-app"
 else

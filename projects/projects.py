@@ -1,3 +1,4 @@
+# Boilerplate code provided by teacher
 from flask import Blueprint, render_template
 
 app_projects = Blueprint('projects', __name__,

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# BOILERPLATE CODE PROVIDED BY AP CSP TEACHER then modified to fit CPT project needs
 # Build and test backend
 docker-compose up -d --build
 curl localhost:8080 # PORTS MUST NOT OVERLAP

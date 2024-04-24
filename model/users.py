@@ -1,4 +1,5 @@
-""" database dependencies to support sqliteDB examples """
+# Boilerplate code from teacher/chatGPT, then reworked to fit the cpt project
+# CHATGPT used to debug this code
 from random import randrange
 from datetime import date
 import os, base64

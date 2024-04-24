@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
-
+# BOILERPLATE CODE PROVIDED BY AP CSP TEACHER then modified to fit CPT project needs
 """
 These object can be used throughout project.
 1.) Objects from this file can be included in many blueprints

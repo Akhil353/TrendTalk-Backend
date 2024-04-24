@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# BOILERPLATE CODE PROVIDED BY AP CSP TEACHER then modified to fit CPT project needs
 # Set environment variables
 export FLASK_APP=main
 export PYTHONPATH=.:$PYTHONPATH

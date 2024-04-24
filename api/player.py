@@ -1,3 +1,4 @@
+# CODE PROVIDED AS TEMPLATE BY TEACHER
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource # used for REST API building
 

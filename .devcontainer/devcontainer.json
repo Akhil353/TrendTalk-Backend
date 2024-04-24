@@ -1,5 +1,6 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.112.0/containers/typescript-node-12
+// CODE PROVIDED AS TEMPLATE BY TEACHER
 {
   "name": "Docker from Docker example",
   "dockerComposeFile": "docker-compose.dev-container.yml",

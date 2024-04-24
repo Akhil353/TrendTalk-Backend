@@ -1,4 +1,5 @@
 """ database dependencies to support sqliteDB examples """
+# CODE PROVIDED AS TEMPLATE BY TEACHER
 from random import randrange
 from datetime import date
 import os, base64

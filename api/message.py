@@ -1,3 +1,5 @@
+# Boilerplate code from AP CSP teacher, then all functions reworked to fit my project
+# CHATGPT used to debug this code
 from flask import Blueprint, request, jsonify, current_app, Response
 from flask_restful import Api, Resource
 from datetime import datetime

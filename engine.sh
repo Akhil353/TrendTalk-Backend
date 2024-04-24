@@ -13,3 +13,4 @@ sudo systemctl restart nginx
 service nginx status
 
 netstat -lntp
+# BOILERPLATE CODE PROVIDED BY AP CSP TEACHER then modified to fit CPT project needs
