@@ -1,14 +1,10 @@
 # Boilerplate code from AP CSP teacher, then all functions reworked to fit my project
 # CHATGPT used to debug this code
-from flask import Blueprint, request, jsonify, current_app, Response
+from flask import Blueprint, request, jsonify, current_app
 from flask_restful import Api, Resource
-from datetime import datetime
 import jwt
-import json
 from auth_middleware import token_required
 from model.messages import Message 
-from model.users import User
-from __init__ import app, db
 
 message_api = Blueprint('message_api', __name__, url_prefix='/api/messages')
 
@@ -36,13 +32,22 @@ class MessageAPI:
                 return {'message': f'Failed to create message: {str(e)}'}, 500
         
         @token_required()
-        def get(self, _): 
-            Message.readMessages(self)
+        def get(self, _): # get users
+            messages = Message.query.all()
+            json_ready = []
+            for message in messages.read():
+                json_ready.append(message)
+            return jsonify(json_ready)
             
 
-        def put(self, old_message, new_message, likes):
-            Message.update(old_message, new_message, likes)
-    class _Send(Resource):
+        def put(self): # change existing value in db
+            body = request.get_json()
+            new_message = body.get('new_message')
+            old_message = body.get('old_message')
+            message = Message.query.filter_by(_message=old_message).first()
+            message.message = new_message
+            return message.message
+    class _Send(Resource): # add new message to DB
         def post(self):
             token = request.cookies.get("jwt")
             uid = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])['_uid'] # current user
@@ -58,17 +63,19 @@ class MessageAPI:
                 return message.read()
             return {'message': f'Processed {uid}, either a format error or User ID {uid} is duplicate'}, 400
 
-    class _Delete(Resource):
+    class _Delete(Resource): # Remove column based off info of message
         @token_required()
         def delete(self, x):
+            token = request.cookies.get("jwt")
             body = request.get_json()
             message_id = body.get('message')
-            uid = body.get('uid')
+            uid = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])['_uid']
             if not message_id:
                 return {'message': 'Message ID is missing'}, 400
 
-            for message in Message.query.all():
-                pass
+            for line in Message.query.all():
+                if line.message == message_id and line.uid == uid:
+                    message = line
             if not message:
                 return {'message': 'Message not found'}, 404
 
@@ -81,7 +88,7 @@ class MessageAPI:
             except Exception as e:
                 return {'message': f'Failed to delete message: {str(e)}'}, 500
         
-    class _Likes(Resource):
+    class _Likes(Resource): # update variable in a specific row/column
         def put(self):
             body = request.get_json()
             message = body.get('message')
