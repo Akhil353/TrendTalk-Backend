@@ -79,7 +79,7 @@ class Message(db.Model):
 
     # updating message content using the old message and new message
     def update(self, old_message, new_message):
-        message = Message.query.get(old_message)
+        message = Message.query.get(old_message) # Index a specific row based on the original message
         message.message = new_message
         db.session.commit()
         return self
@@ -94,8 +94,8 @@ class Message(db.Model):
         messages = Message.query.all()
         message_list = []
                 
-        for message in messages:
-            if message.message is not None:
+        for message in messages: # goes through each message and adds to the list
+            if message.message is not None: # adds if the message exists
                 new_message = {
                     'uid': message.uid,
                     'message': message.message,

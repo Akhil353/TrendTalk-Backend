@@ -5,6 +5,7 @@ from flask_restful import Api, Resource
 import jwt
 from auth_middleware import token_required
 from model.messages import Message 
+from model.users import User
 
 message_api = Blueprint('message_api', __name__, url_prefix='/api/messages')
 
