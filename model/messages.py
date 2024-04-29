@@ -90,6 +90,7 @@ class Message(db.Model):
         db.session.commit()
         return None
     
+    # read all the messages in the DB
     def readMessages(self):
         messages = Message.query.all()
         message_list = []
@@ -105,6 +106,7 @@ class Message(db.Model):
             message_list.append(new_message)
         return json.dumps(message_list)
 
+# initalize the messages DB for use
 def initMessages():
     with app.app_context():
         db.create_all()

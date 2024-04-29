@@ -97,6 +97,7 @@ class MessageAPI:
             message.likes += 1
             return message.likes
 
+# add function sto api to access them from frontend
 api.add_resource(MessageAPI._CRUD, '/')
 api.add_resource(MessageAPI._Send, '/send')
 api.add_resource(MessageAPI._Delete, '/delete')
