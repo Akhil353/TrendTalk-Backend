@@ -90,13 +90,11 @@ class Message(db.Model):
         db.session.commit()
         return None
     
-    # read all the messages in the DB
-    def readMessages(self):
-        messages = Message.query.all()
+    def readMessages(self, messages):
         message_list = []
                 
-        for message in messages: # goes through each message and adds to the list
-            if message.message is not None: # adds if the message exists
+        for message in messages:
+            if message.message is not None:
                 new_message = {
                     'uid': message.uid,
                     'message': message.message,
