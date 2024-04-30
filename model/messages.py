@@ -109,10 +109,10 @@ def initMessages():
     with app.app_context():
         db.create_all()
         # preset messages
-        m1 = Message(uid='toby', message='Hello from Thomas Edison', likes=3)
-        m2 = Message(uid='niko', message='Greetings from Nicholas Tesla', likes=0)
-        m3 = Message(uid='lex', message='Welcome from Alexander Graham Bell', likes=27)
-        m4 = Message(uid='hop', message='Good day from Grace Hopper', likes=-74)
+        m1 = Message(uid='Markiplier', message='Hey Guys! Markiplier Here!', likes=3)
+        m2 = Message(uid='Mr. Beast', message='Today, I am giving away this house!', likes=0)
+        m3 = Message(uid='Mark Rober', message='I made a flamethrower that can move by itself', likes=27)
+        m4 = Message(uid='Game Theory', message='Who is William Afton?', likes=74)
         messages = [m1, m2, m3, m4]
 
         # add to db
