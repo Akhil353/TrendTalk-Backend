@@ -48,10 +48,12 @@ class Message(db.Model):
     def date(self):
         return self._date.strftime('%m-%d-%Y %H:%M:%S')
     
+    # gets likes of message
     @property
     def likes(self):
         return self._likes
     
+    # changes the amount of likes a message has
     @likes.setter
     def likes(self, likes):
         self._likes = likes
@@ -90,8 +92,9 @@ class Message(db.Model):
         db.session.commit()
         return None
     
+    # reads all the messages in thre database
     def readMessages(self, messages):
-        message_list = []
+        message_arr = []
                 
         for message in messages:
             if message.message is not None:
@@ -101,8 +104,8 @@ class Message(db.Model):
                     'likes': message.likes,
                     'date': message.date
                 }
-            message_list.append(new_message)
-        return json.dumps(message_list)
+            message_arr.append(new_message)
+        return json.dumps(message_arr)
 
 # initalize the messages DB for use
 def initMessages():
