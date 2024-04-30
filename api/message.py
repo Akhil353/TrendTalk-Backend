@@ -37,10 +37,10 @@ class MessageAPI:
     class _CRUD(Resource):
         def get(self, _): 
             messages = Message.query.all()
-            json_ready = []
+            all_messages = []
             for message in messages.read():
-                json_ready.append(message)
-            return jsonify(json_ready)
+                all_messages.append(message)
+            return jsonify(all_messages)
         
         def put(self):
             body = request.get_json()
