@@ -12,7 +12,38 @@ message_api = Blueprint('message_api', __name__, url_prefix='/api/messages')
 api = Api(message_api)
 
 class MessageAPI:
+    class _Send(Resource):
+        def post(self):
+            token = request.cookies.get("jwt")
+            uid = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])['_uid']
+            body = request.get_json()
+            user = User.query.filter_by(uid=uid).first()
+            name = user._name
+            message = body.get('message')
+            likes = body.get('likes')
+            if uid is not None:
+                new_message = Message(uid=name, message=message, likes=likes)
+            message = new_message.create()
+            if message:
+                return message.read()
+            return {'message': f'Processed {uid}, either a format error or User ID {uid} is duplicate'}, 400
     class _CRUD(Resource):
+        @token_required()
+        def get(self, _): 
+            messages = Message.query.all()
+            json_ready = []
+            for message in messages.read():
+                json_ready.append(message)
+            return jsonify(json_ready)
+        
+        def put(self):
+            body = request.get_json()
+            new_message = body.get('new_message')
+            old_message = body.get('old_message')
+            message = Message.query.filter_by(_message=old_message).first()
+            message.message = new_message
+            return message.message
+        
         @token_required
         def post(self, current_user, Message): 
             body = request.get_json()
@@ -32,38 +63,6 @@ class MessageAPI:
             except Exception as e:
                 return {'message': f'Failed to create message: {str(e)}'}, 500
         
-        @token_required()
-        def get(self, _): # get users
-            messages = Message.query.all()
-            json_ready = []
-            for message in messages.read():
-                json_ready.append(message)
-            return jsonify(json_ready)
-            
-
-        def put(self): # change existing value in db
-            body = request.get_json()
-            new_message = body.get('new_message')
-            old_message = body.get('old_message')
-            message = Message.query.filter_by(_message=old_message).first()
-            message.message = new_message
-            return message.message
-    class _Send(Resource): # add new message to DB
-        def post(self):
-            token = request.cookies.get("jwt")
-            uid = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])['_uid'] # current user
-            body = request.get_json()
-            user = User.query.filter_by(uid=uid).first()
-            name = user._name
-            message = body.get('message')
-            likes = body.get('likes')
-            if uid is not None:
-                new_message = Message(uid=name, message=message, likes=likes)
-            message = new_message.create()
-            if message:
-                return message.read()
-            return {'message': f'Processed {uid}, either a format error or User ID {uid} is duplicate'}, 400
-
     class _Delete(Resource): # Remove column based off info of message
         @token_required()
         def delete(self, x):
