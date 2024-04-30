@@ -66,6 +66,8 @@ class UserAPI:
                         "error": str(e),
                         "data": None
                 }, 500
+    
+    # authenticate the user if the user was found
     class Login(Resource):
         def post(self):
             data = request.get_json()
@@ -77,7 +79,7 @@ class UserAPI:
                 response = {'message': 'Invalid creds'}
                 return jsonify(response)
 
-            user = User.query.filter_by(_uid=uid).first()
+            user = User.query.filter_by(_uid=uid).first() # get the user from DB
 
             if user and user.is_password(password):
          
@@ -92,19 +94,23 @@ class UserAPI:
 
             response = {'message': 'Invalid id or pass'}
             return jsonify(response), 401
+        
+    # create a new user based off user info inputted from frontend
     class _Create(Resource):
         def post(self, body):
             name = body.get('name')
             uid = body.get('uid')
             password = body.get('password')
             if uid is not None:
-                new_user = User(name=name, uid=uid, password=password)
+                new_user = User(name=name, uid=uid, password=password) # create user from inputted info
             user = new_user.create()
             if user:
                 return user.read()
             return {'message': f'Processed {name}, either a format error or User ID {uid} is duplicate'}, 400
+    
+    # delete user
     class _Delete(Resource):
-        def post(self): # delete user
+        def post(self):
 
             body = request.get_json()
             uid = body.get('uid')
