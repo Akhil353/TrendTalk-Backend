@@ -13,10 +13,9 @@ api = Api(message_api)
 
 class MessageAPI:
     class _Send(Resource):
-        def post(self):
+        def post(self, body):
             token = request.cookies.get("jwt")
             uid = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])['_uid']
-            body = request.get_json()
             user = User.query.filter_by(uid=uid).first()
             name = user._name
             message = body.get('message')
