@@ -20,14 +20,20 @@ class MessageAPI:
             name = user._name
             message = body.get('message')
             likes = body.get('likes')
-            if uid is not None:
+
+            if uid != None and message != None:
                 new_message = Message(uid=name, message=message, likes=likes)
+            elif message == None:
+                return {'error': 'Message does not contain any content'}, 404
+            else:
+                return {'error': 'User is not logged in or does not exist'}, 404
             message = new_message.create()
+
             if message:
                 return message.read()
-            return {'message': f'Processed {uid}, either a format error or User ID {uid} is duplicate'}, 400
+            else:
+                return {'message': f'Processed {uid}, either a format error or User ID {uid} is duplicate'}, 400
     class _CRUD(Resource):
-        @token_required()
         def get(self, _): 
             messages = Message.query.all()
             json_ready = []
@@ -43,7 +49,6 @@ class MessageAPI:
             message.message = new_message
             return message.message
         
-        @token_required
         def post(self, current_user, Message): 
             body = request.get_json()
 
@@ -63,10 +68,8 @@ class MessageAPI:
                 return {'message': f'Failed to create message: {str(e)}'}, 500
         
     class _Delete(Resource): # Remove column based off info of message
-        @token_required()
-        def delete(self, x):
+        def delete(self, body):
             token = request.cookies.get("jwt")
-            body = request.get_json()
             message_id = body.get('message')
             uid = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])['_uid']
             if not message_id:
